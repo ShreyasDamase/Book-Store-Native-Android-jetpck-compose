@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.book_store.presentation.onboarding.OnboardingScreen
 import com.example.book_store.data.local.datastore.UserPreferences
+import com.example.book_store.data.local.encrypted.TokenStore
+import com.example.book_store.presentation.screens.LoginScreen
 import com.example.book_store.presentation.screens.RegisterScreen
 
 fun NavGraphBuilder.authNavGraph(
@@ -20,6 +22,9 @@ fun NavGraphBuilder.authNavGraph(
     }
 
     composable(Screen.Register.route) {
-        RegisterScreen()
+        RegisterScreen(navController,userPreferences)
+    }
+    composable(Screen.Login.route) {
+        LoginScreen(navController,userPreferences, TokenStore)
     }
 }
