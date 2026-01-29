@@ -1,4 +1,4 @@
-package com.example.book_store.presentation.screens
+package com.example.book_store.presentation.auth.register
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

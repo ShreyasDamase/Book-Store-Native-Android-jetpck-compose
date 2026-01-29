@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
 
-    private const val BASE_URL = "http://10.0.2.2:3000/"
+    private const val BASE_URL = "http://10.0.2.2:3000/api/" // Use http://<your-pc-ip>:3000 for physical device
     // Use "http://localhost:3000/" for physical device on same network
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

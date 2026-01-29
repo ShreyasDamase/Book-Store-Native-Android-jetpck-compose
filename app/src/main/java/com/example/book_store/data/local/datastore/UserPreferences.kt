@@ -25,6 +25,16 @@ class  UserPreferences(private val  context: Context){
         .catch { e-> if(e is IOException ) emit(emptyPreferences()) else throw e
         }
         .map { prefs-> prefs[UserKeys.LOGGED_IN]?:false}
+
+    //user name flow
+    val userNameFlow = dataStore.data
+        .catch { e ->
+            if (e is IOException) emit(emptyPreferences()) else throw e
+        }
+        .map { prefs ->
+            prefs[UserKeys.USER_NAME] ?: ""
+        }
+
     // Mutations
     suspend fun setOnboardingDone(done: Boolean){
         dataStore.edit { prefs-> prefs[UserKeys.ONBOARDING_COMPLETE]=done }
@@ -32,5 +42,13 @@ class  UserPreferences(private val  context: Context){
     suspend fun setLoggedIn( value: Boolean){
         dataStore.edit { prefs->prefs[UserKeys.LOGGED_IN]=value }
     }
+
+
+    suspend fun setUserName(name: String) {
+        dataStore.edit { prefs ->
+            prefs[UserKeys.USER_NAME] = name
+        }
+    }
+
 
 }

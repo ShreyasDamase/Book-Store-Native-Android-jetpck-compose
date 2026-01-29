@@ -17,7 +17,7 @@ class LoginViewModel(
     var password by mutableStateOf("")
 
     var loading by mutableStateOf(false)
-    var errorMessage by mutableStateOf<String?>(null)
+    var errorMessage by mutableStateOf<String?>(null) 
     var loginSuccess by mutableStateOf(false)
 
     fun login() {

@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.book_store.data.local.datastore.UserPreferences
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.presentation.screens.HomeScreen
-import com.example.book_store.presentation.screens.SplashScreen
+import com.example.book_store.presentation.auth.onboarding.SplashScreen
 
 @Composable
 fun AppNavHost(

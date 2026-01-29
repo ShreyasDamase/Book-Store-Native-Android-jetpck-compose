@@ -3,6 +3,7 @@ package com.example.book_store.data.local.encrypted
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import androidx.core.content.edit
 
 class TokenStore(context: Context){
     companion object{
@@ -31,7 +32,7 @@ class TokenStore(context: Context){
     }
 
     fun clearTokens(){
-        prefs.edit().clear().apply()
+        prefs.edit { clear() }
     }
     fun getAccessToken(): String?= prefs.getString(KEY_ACCESS,null)
     fun getRefreshToken(): String?=prefs.getString(KEY_REFRESH,null)

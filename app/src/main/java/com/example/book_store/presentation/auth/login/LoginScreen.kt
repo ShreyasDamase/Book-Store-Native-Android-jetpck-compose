@@ -1,5 +1,5 @@
-package com.example.book_store.presentation.screens
-
+package com.example.book_store.presentation.auth.login
+//DM Serif Display
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -94,6 +94,7 @@ fun LoginScreen(
             // 👇 REGISTER NAVIGATION BUTTON
             Text(
                 text = "Don't have an account? Register",
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(top = 12.dp)

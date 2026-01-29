@@ -1,4 +1,4 @@
-package com.example.book_store.presentation.screens
+package com.example.book_store.presentation.auth.onboarding
 
 import AnimatedPreLoader
 import androidx.compose.runtime.*

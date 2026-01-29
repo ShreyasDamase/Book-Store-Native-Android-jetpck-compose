@@ -18,7 +18,7 @@ class AuthRepository(private val tokenStore: TokenStore) {
         return try {
             val response = api.register(RegisterRequest(username, email, password))
 
-            if (response.isSuccessful) {
+                if (response.isSuccessful) {
                 val body = response.body() ?: return Result.failure(Exception("Empty response"))
 
                 // Save tokens
