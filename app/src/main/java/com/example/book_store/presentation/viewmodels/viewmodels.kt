@@ -6,18 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.data.model.LoginRequest
 import com.example.book_store.data.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val repository: AuthRepository,
-    private val tokenStore: TokenStore
 ) : ViewModel() {
 
     var email by mutableStateOf("")
     var password by mutableStateOf("")
 
     var loading by mutableStateOf(false)
-    var errorMessage by mutableStateOf<String?>(null) 
+    var errorMessage by mutableStateOf<String?>(null)
     var loginSuccess by mutableStateOf(false)
 
     fun login() {
@@ -28,7 +30,6 @@ class LoginViewModel(
             val result = repository.login(email, password)
 
             result.onSuccess { response ->
-                tokenStore.saveTokens(response.accessToken, response.refreshToken)
                 loginSuccess = true
             }
 

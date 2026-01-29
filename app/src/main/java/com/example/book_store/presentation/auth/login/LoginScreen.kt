@@ -9,27 +9,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.book_store.data.local.datastore.UserPreferences
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.data.repository.AuthRepository
 import com.example.book_store.presentation.navigation.Screen
 import com.example.book_store.presentation.viewmodels.LoginViewModel
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.material.icons.Icons
+
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    userPreferences: UserPreferences,
-    TokenStore: TokenStore.Companion
-) {
-    val context = LocalContext.current
 
-    // Dependencies
-    val tokenStore = remember { TokenStore(context) }
-    val repo = remember { AuthRepository(tokenStore) }
+    ) {
+    val viewModel: LoginViewModel = hiltViewModel()
+    var passwordVisible by remember { mutableStateOf(false) }
+
 
     // ViewModel
-    val viewModel = remember { LoginViewModel(repo, tokenStore) }
 
     // Navigate on success
     LaunchedEffect(viewModel.loginSuccess) {
@@ -64,9 +67,27 @@ fun LoginScreen(
                 value = viewModel.password,
                 onValueChange = { viewModel.password = it },
                 label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = if (passwordVisible)
+                    VisualTransformation.None
+                else
+                    PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = painterResource(
+                                id = if (passwordVisible)
+                                    android.R.drawable.star_on
+                                else
+                                    android.R.drawable.presence_invisible
+                            ),
+                            contentDescription = "Toggle Password"
+                        )
+                    }
+                }
+
             )
+
 
             Button(
                 onClick = { viewModel.login() },

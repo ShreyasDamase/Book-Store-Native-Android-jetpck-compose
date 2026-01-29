@@ -6,20 +6,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.book_store.data.local.datastore.UserPreferences
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.presentation.navigation.Screen
+import com.example.book_store.presentation.viewmodels.SessionViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    userPreferences: UserPreferences,
-    tokenStore: TokenStore
-) {
-    val scope = rememberCoroutineScope()
 
+    ) {
+    val scope = rememberCoroutineScope()
+    val sessionVM: SessionViewModel = hiltViewModel()
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -36,10 +37,10 @@ fun HomeScreen(
                 onClick = {
                     scope.launch {
                         // 1) Clear secure tokens
-                        tokenStore.clearTokens()
+                        sessionVM.tokenStore.clearTokens()
 
                         // 2) Mark logged out
-                        userPreferences.setLoggedIn(false)
+                        sessionVM.userPreferences.setLoggedIn(false)
 
                         // 3) Navigate out
                         navController.navigate(Screen.Login.route) {

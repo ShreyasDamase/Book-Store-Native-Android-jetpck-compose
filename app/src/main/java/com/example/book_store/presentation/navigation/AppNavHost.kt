@@ -11,26 +11,25 @@ import com.example.book_store.presentation.auth.onboarding.SplashScreen
 
 @Composable
 fun AppNavHost(
-    userPreferences: UserPreferences,tokenStore: TokenStore
-){
-    val navController= rememberNavController()
+
+) {
+    val navController = rememberNavController()
     NavHost(
-        navController=navController
-        ,startDestination= Screen.Splash.route
-    ){
+        navController = navController, startDestination = Screen.Splash.route
+    ) {
 
         // Splash
         composable(Screen.Splash.route) {
-            SplashScreen(  navController = navController,
-                userPreferences = userPreferences,
-                tokenStore = tokenStore)
+            SplashScreen(
+                navController = navController,
+            )
         }
         authNavGraph(
-            navController =navController,
-            userPreferences=userPreferences
+            navController = navController,
         )
         composable(Screen.Home.route) {
-            HomeScreen(navController = navController ,userPreferences=userPreferences,    tokenStore
+            HomeScreen(
+                navController = navController,
             )
         }
 

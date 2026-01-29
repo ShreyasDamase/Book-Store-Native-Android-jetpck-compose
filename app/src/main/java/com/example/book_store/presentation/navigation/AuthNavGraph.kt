@@ -3,28 +3,38 @@ package com.example.book_store.presentation.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.book_store.presentation.auth.onboarding.OnboardingScreen
-import com.example.book_store.data.local.datastore.UserPreferences
-import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.presentation.auth.login.LoginScreen
+import com.example.book_store.presentation.auth.login.OtpScreen
 import com.example.book_store.presentation.auth.register.RegisterScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
-    userPreferences: UserPreferences
-) {
+
+    ) {
+
     composable(Screen.Onboarding.route) {
         OnboardingScreen(
             navController = navController,
-            userPreferences = userPreferences
         )
     }
 
     composable(Screen.Register.route) {
-        RegisterScreen(navController,userPreferences)
+        RegisterScreen(navController)
     }
     composable(Screen.Login.route) {
-        LoginScreen(navController,userPreferences, TokenStore)
+        LoginScreen(navController)
     }
+    composable(
+        route = Screen.Otp.route,
+        arguments = listOf(navArgument("email") { type = NavType.StringType })
+    ) { backStackEntry ->
+
+        val email = backStackEntry.arguments?.getString("email") ?: ""
+        OtpScreen(navController, email)
+    }
+
 }

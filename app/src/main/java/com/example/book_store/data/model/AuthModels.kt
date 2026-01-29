@@ -1,11 +1,16 @@
 package com.example.book_store.data.model
 
 
-
 data class RegisterRequest(
     val username: String,
     val email: String,
     val password: String
+)
+
+data class VerifyRequest(
+
+    val email: String,
+    val otp: String
 )
 
 data class RegisterResponse(

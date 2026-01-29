@@ -8,21 +8,21 @@ import androidx.activity.enableEdgeToEdge
 import com.example.book_store.data.local.datastore.UserPreferences
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.presentation.navigation.AppNavHost
- import com.example.book_store.presentation.theme.BookStoreTheme
+import com.example.book_store.presentation.theme.BookStoreTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val userPreferences= UserPreferences(context = this)
-        val tokenStore = TokenStore(context = this)
+
         setContent {
-BookStoreTheme {
-    AppNavHost(
-        userPreferences=userPreferences,
-        tokenStore=tokenStore
-    )
-}
+            BookStoreTheme {
+                AppNavHost(
+
+                )
+            }
         }
     }
 }

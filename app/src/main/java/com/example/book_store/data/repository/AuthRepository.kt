@@ -4,8 +4,9 @@ import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.data.model.*
 import com.example.book_store.data.remote.RetrofitInstance
 import org.json.JSONObject
+import javax.inject.Inject
 
-class AuthRepository(private val tokenStore: TokenStore) {
+class AuthRepository @Inject constructor(private val tokenStore: TokenStore) {
 
     private val api = RetrofitInstance.apiService
 
@@ -18,7 +19,7 @@ class AuthRepository(private val tokenStore: TokenStore) {
         return try {
             val response = api.register(RegisterRequest(username, email, password))
 
-                if (response.isSuccessful) {
+            if (response.isSuccessful) {
                 val body = response.body() ?: return Result.failure(Exception("Empty response"))
 
                 // Save tokens
@@ -30,6 +31,33 @@ class AuthRepository(private val tokenStore: TokenStore) {
 
                 Result.success(body)
 
+            } else {
+                Result.failure(Exception(parseError(response.errorBody()?.string())))
+            }
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    // ________________ OTP Verify ____________ //
+
+    suspend fun verifyRegister(
+        email: String,
+        otp: String
+    ): Result<LoginResponse> {
+        return try {
+            val response = api.verifyRegister(VerifyRequest(email, otp))
+
+            if (response.isSuccessful) {
+                val body = response.body()
+                    ?: return Result.failure(Exception("Empty response"))
+
+                // 🔥 tokens come here after OTP success
+                tokenStore.saveTokens(body.accessToken, body.refreshToken)
+
+                Result.success(body)
             } else {
                 Result.failure(Exception(parseError(response.errorBody()?.string())))
             }
