@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.book_store.presentation.auth.onboarding.OnboardingScreen
 import com.example.book_store.presentation.auth.login.LoginScreen
 import com.example.book_store.presentation.auth.login.OtpScreen
@@ -15,26 +16,31 @@ fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
 
     ) {
+    navigation(
+        startDestination = Screen.Onboarding.route,
 
-    composable(Screen.Onboarding.route) {
-        OnboardingScreen(
-            navController = navController,
-        )
-    }
+        route = AUTH_TOUTE,
 
-    composable(Screen.Register.route) {
-        RegisterScreen(navController)
-    }
-    composable(Screen.Login.route) {
-        LoginScreen(navController)
-    }
-    composable(
-        route = Screen.Otp.route,
-        arguments = listOf(navArgument("email") { type = NavType.StringType })
-    ) { backStackEntry ->
+        ) {
+        composable(Screen.Onboarding.route) {
+            OnboardingScreen(
+                navController = navController,
+            )
+        }
 
-        val email = backStackEntry.arguments?.getString("email") ?: ""
-        OtpScreen(navController, email)
-    }
+        composable(Screen.Register.route) {
+            RegisterScreen(navController)
+        }
+        composable(Screen.Login.route) {
+            LoginScreen(navController)
+        }
+        composable(
+            route = Screen.Otp.route,
+            arguments = listOf(navArgument("email") { type = NavType.StringType })
+        ) { backStackEntry ->
 
+            val email = backStackEntry.arguments?.getString("email") ?: ""
+            OtpScreen(navController, email)
+        }
+    }
 }

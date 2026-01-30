@@ -30,7 +30,7 @@ fun OtpScreen(
 
     LaunchedEffect(vm.success) {
         if (vm.success) {
-            navController.navigate(Screen.Home.route) {
+            navController.navigate(Screen.BottomBar.route) {
                 popUpTo(Screen.Otp.route) { inclusive = true }
             }
         }

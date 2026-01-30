@@ -37,7 +37,7 @@ fun LoginScreen(
     // Navigate on success
     LaunchedEffect(viewModel.loginSuccess) {
         if (viewModel.loginSuccess) {
-            navController.navigate(Screen.Home.route) {
+            navController.navigate(Screen.BottomBar.route) {
                 popUpTo(Screen.Login.route) { inclusive = true }
             }
         }

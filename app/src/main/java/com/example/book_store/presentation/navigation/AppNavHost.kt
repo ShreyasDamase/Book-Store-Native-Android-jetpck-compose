@@ -27,11 +27,9 @@ fun AppNavHost(
         authNavGraph(
             navController = navController,
         )
-        composable(Screen.Home.route) {
-            HomeScreen(
-                navController = navController,
-            )
-        }
+        homeNavGraph(
+            navController = navController
+        )
 
     }
 }

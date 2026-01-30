@@ -32,7 +32,7 @@ fun SplashScreen(
 
         when {
             !accessToken.isNullOrEmpty() -> {
-                navController.navigate(Screen.Home.route) {
+                navController.navigate(Screen.BottomBar.route) {
                     popUpTo(Screen.Splash.route) { inclusive = true }
                 }
             }
