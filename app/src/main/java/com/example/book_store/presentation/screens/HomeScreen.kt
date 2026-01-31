@@ -1,56 +1,90 @@
 package com.example.book_store.presentation.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.book_store.data.local.datastore.UserPreferences
-import com.example.book_store.data.local.encrypted.TokenStore
-import com.example.book_store.presentation.navigation.Screen
-import com.example.book_store.presentation.viewmodels.SessionViewModel
-import kotlinx.coroutines.launch
+import coil.compose.rememberAsyncImagePainter
+import com.example.book_store.presentation.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
+    navController: NavHostController
+) {
+    val viewModel: HomeViewModel = hiltViewModel()
 
-    ) {
-    val scope = rememberCoroutineScope()
-    val sessionVM: SessionViewModel = hiltViewModel()
-    Box(
+    val books = viewModel.books
+    val loading = viewModel.loading
+
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentPadding = PaddingValues(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
-            Text("Welcome Home!", style = MaterialTheme.typography.headlineSmall)
+        itemsIndexed(books) { index, book ->
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Button(
-                onClick = {
-                    scope.launch {
-                        // 1) Clear secure tokens
-                        sessionVM.tokenStore.clearTokens()
-
-                        // 2) Mark logged out
-                        sessionVM.userPreferences.setLoggedIn(false)
-
-                        // 3) Navigate out
-                        navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Home.route) { inclusive = true }
-                        }
-                    }
-                }
-            ) {
-                Text("Erase Token & Logout")
+            // 🔥 Trigger pagination when reaching end
+            if (index >= books.size - 1 && !loading) {
+                viewModel.loadBooks()
             }
+
+            BookItem(
+                title = book.title,
+                caption = book.caption,
+                image = book.image,
+                username = book.user.username
+            )
+        }
+
+        if (loading) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun BookItem(
+    title: String,
+    caption: String,
+    image: String,
+    username: String
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+
+            Image(
+                painter = rememberAsyncImagePainter(image),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(caption, style = MaterialTheme.typography.bodySmall)
+            Text("By $username", style = MaterialTheme.typography.labelSmall)
         }
     }
 }

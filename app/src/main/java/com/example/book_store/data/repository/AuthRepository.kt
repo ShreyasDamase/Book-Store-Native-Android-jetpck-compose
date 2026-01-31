@@ -2,13 +2,15 @@ package com.example.book_store.data.repository
 
 import com.example.book_store.data.local.encrypted.TokenStore
 import com.example.book_store.data.model.*
-import com.example.book_store.data.remote.RetrofitInstance
+import com.example.book_store.data.remote.ApiService
 import org.json.JSONObject
 import javax.inject.Inject
 
-class AuthRepository @Inject constructor(private val tokenStore: TokenStore) {
+class AuthRepository @Inject constructor(
+    private val api: ApiService,
+    private val tokenStore: TokenStore
+) {
 
-    private val api = RetrofitInstance.apiService
 
     // ---------------- REGISTER ---------------- //
     suspend fun register(

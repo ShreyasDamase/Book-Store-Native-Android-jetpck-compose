@@ -6,27 +6,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.book_store.data.local.datastore.UserPreferences
-import com.example.book_store.data.local.encrypted.TokenStore
-import com.example.book_store.data.repository.AuthRepository
+
 import com.example.book_store.presentation.navigation.Screen
 import com.example.book_store.presentation.viewmodels.RegisterViewModel
-import com.example.book_store.presentation.viewmodels.SessionViewModel
 
 @Composable
 fun RegisterScreen(navController: NavController) {
-    val context = LocalContext.current
 
     // Initialize ViewModel
-    val tokenStore = remember { TokenStore(context) }
-    val repository = remember { AuthRepository(tokenStore) }
-    val viewModel = remember { RegisterViewModel(repository) }
-    val sessionVM: SessionViewModel = hiltViewModel()
+
+    val viewModel: RegisterViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
 
     // Navigate on success

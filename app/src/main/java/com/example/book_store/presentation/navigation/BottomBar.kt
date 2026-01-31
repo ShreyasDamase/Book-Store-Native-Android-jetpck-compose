@@ -4,24 +4,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.book_store.presentation.components.BottomBar
 
 import com.example.book_store.presentation.screens.HomeScreen
 
 @Composable
-fun BottomBar() {
+fun BottomBar(
+    navController: NavHostController
 
-    val navController = rememberNavController()
+) {
+
+    val tabNavController = rememberNavController()
 
     Scaffold(
         bottomBar = {
-            BottomBar(navController)
+            BottomBar(tabNavController)
         }
     ) { padding ->
 
         NavHost(
-            navController = navController,
+            navController = tabNavController,
             startDestination = Screen.Feed.route,
             modifier = Modifier.padding(padding)
         ) {
