@@ -32,7 +32,7 @@ import com.example.book_store.presentation.viewmodels.SessionViewModel
 
 @Composable
 fun OnboardingScreen(
-    navController: NavController,
+    onContinue: () -> Unit
 ) {
     val context = LocalContext.current
     val sessionVM: SessionViewModel = hiltViewModel()
@@ -89,16 +89,8 @@ fun OnboardingScreen(
         }
 // Bottom button (absolute)
         Button(
-            onClick = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    sessionVM.userPreferences.setOnboardingDone(true)
-                    MainScope().launch {
-                        navController.navigate(Screen.Register.route) {
-                            popUpTo(Screen.Onboarding.route) { inclusive = true }
-                        }
-                    }
-                }
-            },
+            onClick =
+                onContinue,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .offset(y = (-80).dp)  // bottom margin

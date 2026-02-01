@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.book_store.presentation.components.BottomBar
+import com.example.book_store.presentation.screens.CreateBookScreen
 
 import com.example.book_store.presentation.screens.HomeScreen
 
@@ -35,7 +36,7 @@ fun BottomBar(
             }
 
             composable(Screen.AddBook.route) {
-                Text("Add Book Screen")
+                CreateBookScreen()
             }
 
             composable(Screen.Profile.route) {

@@ -1,6 +1,7 @@
 package com.example.book_store.presentation.navigation
 
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -11,6 +12,7 @@ import com.example.book_store.presentation.auth.onboarding.OnboardingScreen
 import com.example.book_store.presentation.auth.login.LoginScreen
 import com.example.book_store.presentation.auth.login.OtpScreen
 import com.example.book_store.presentation.auth.register.RegisterScreen
+import com.example.book_store.presentation.viewmodels.SessionViewModel
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
@@ -23,8 +25,16 @@ fun NavGraphBuilder.authNavGraph(
 
         ) {
         composable(Screen.Onboarding.route) {
+            val sessionVM: SessionViewModel = hiltViewModel()
+
             OnboardingScreen(
-                navController = navController,
+                onContinue = {
+                    sessionVM.completeOnboarding {
+                        navController.navigate(Screen.Register.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    }
+                }
             )
         }
 

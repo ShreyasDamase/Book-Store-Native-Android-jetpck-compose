@@ -7,6 +7,25 @@ data class BookPageResponse(
     val totalPages: Int
 )
 
+data class CreateBookRequest(
+    val title: String,
+    val caption: String,
+    val rating: Int,
+    val image: String,
+    val categories: List<String>
+)
+
+data class CreateBookResponse(
+    val _id: String,
+    val title: String,
+    val caption: String,
+    val rating: Int,
+    val image: String,
+    val categories: List<String>,
+    val user: String
+)
+
+
 data class BookDto(
     val _id: String,
     val title: String,
